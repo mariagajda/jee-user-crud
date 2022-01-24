@@ -7,6 +7,7 @@ import java.io.IOException;
 
 @WebServlet("/user/add")
 public class UserAdd extends HttpServlet {
+    private final UserDao userDao = new UserDao();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         getServletContext().getRequestDispatcher("/users/add.jsp")
@@ -19,8 +20,8 @@ public class UserAdd extends HttpServlet {
         String userName = request.getParameter("userName");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        User newUser = new User(userName, email, password);
-        UserDao userDao = new UserDao();
+        User newUser = new User(userName, email, userDao.hashPassword(password));
+
         userDao.create(newUser);
         response.sendRedirect(request.getContextPath() + "/user/list");
     }

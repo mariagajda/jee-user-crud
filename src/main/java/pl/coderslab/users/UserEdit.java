@@ -7,10 +7,10 @@ import java.io.IOException;
 
 @WebServlet("/user/edit")
 public class UserEdit extends HttpServlet {
+    private final UserDao userDao = new UserDao();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        UserDao userDao = new UserDao();
         User userToUpdate = userDao.read(id);
         request.setAttribute("user", userToUpdate);
         getServletContext().getRequestDispatcher("/users/edit.jsp")
@@ -23,7 +23,6 @@ public class UserEdit extends HttpServlet {
         String userName = request.getParameter("userName");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        UserDao userDao = new UserDao();
         User user = new User();
         user.setId(id);
         user.setUserName(userName);

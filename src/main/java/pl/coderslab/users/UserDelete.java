@@ -7,12 +7,13 @@ import java.io.IOException;
 
 @WebServlet("/user/delete")
 public class UserDelete extends HttpServlet {
+    private final UserDao userDao = new UserDao();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        UserDao userDao = new UserDao();
         userDao.delete(id);
-        response.sendRedirect("user/list");
+        response.sendRedirect(request.getContextPath() + "/user/list");
     }
 
     @Override
